@@ -9,7 +9,7 @@ WHERE teamID = 'BAL';
 SELECT teamID, POS, MAX(G)
 FROM Fielding
 WHERE yearID = 2021 AND
-				POS != 'P' 
+	POS != 'P' 
 GROUP BY teamID, POS;
 
 # task 1
@@ -20,7 +20,7 @@ FROM(
 SELECT playerID, teamID, POS, G, rank() OVER(PARTITION BY teamID, POS ORDER BY G DESC, playerID) AS rank
 FROM Fielding
 WHERE yearID = 2021 AND
-				POS != 'P') AS A
+	POS != 'P') AS A
 WHERE rank <= 3
 )
 
@@ -46,9 +46,6 @@ WHERE teamID = 'BAL'
 ORDER BY POS, rank;
 
 
-# task 2
-
-
 # task 3
 
 SELECT *
@@ -59,12 +56,12 @@ Explain Teams;
 
 WITH RankedTeams AS (
     SELECT BPF,
-					W/G AS winning_percentage,
-					RANK() OVER (ORDER BY W/G DESC, R DESC) AS WG_Ranking,
-					(CASE WHEN WCWin = 'Y' THEN 1 ELSE 0 END+
-							CASE WHEN DivWin = 'Y' THEN 1 ELSE 0 END+
-							CASE WHEN LgWin = 'Y' THEN 1 ELSE 0 END+
-							CASE WHEN WSWin = 'Y' THEN 1 ELSE 0 END) AS playoff_points
+		W/G AS winning_percentage,
+		RANK() OVER (ORDER BY W/G DESC, R DESC) AS WG_Ranking,
+		(CASE WHEN WCWin = 'Y' THEN 1 ELSE 0 END+
+		CASE WHEN DivWin = 'Y' THEN 1 ELSE 0 END+
+		CASE WHEN LgWin = 'Y' THEN 1 ELSE 0 END+
+		CASE WHEN WSWin = 'Y' THEN 1 ELSE 0 END) AS playoff_points
     FROM  Teams
 	WHERE yearID>=1980 AND yearID<=2019
 ), 
@@ -105,23 +102,23 @@ FROM CalculatedCorrelations;
 
 
     SELECT BPF,
-					W/G AS winning_percentage,
-					RANK() OVER (ORDER BY W/G DESC, R DESC) AS WG_Ranking,
-					CASE WHEN WCWin = 'Y' THEN 1 ELSE 0 END+
-							CASE WHEN DivWin = 'Y' THEN 1 ELSE 0 END+
-							CASE WHEN LgWin = 'Y' THEN 1 ELSE 0 END+
-							CASE WHEN WSWin = 'Y' THEN 1 ELSE 0 END AS playoff_points
-    FROM  Teams
+		W/G AS winning_percentage,
+		RANK() OVER (ORDER BY W/G DESC, R DESC) AS WG_Ranking,
+		CASE WHEN WCWin = 'Y' THEN 1 ELSE 0 END+
+		CASE WHEN DivWin = 'Y' THEN 1 ELSE 0 END+
+		CASE WHEN LgWin = 'Y' THEN 1 ELSE 0 END+
+		CASE WHEN WSWin = 'Y' THEN 1 ELSE 0 END AS playoff_points
+    	FROM  Teams
 	WHERE yearID>=1980 AND yearID<=2019;
 
 WITH RankedTeams AS (
     SELECT BPF,
-					W/G AS winning_percentage,
-					RANK() OVER (ORDER BY W/G DESC, R DESC) AS WG_Ranking,
-					SUM(CASE WHEN WCWin = 'Y' THEN 1 ELSE 0 END,
-							CASE WHEN DivWin = 'Y' THEN 1 ELSE 0 END,
-							CASE WHEN LgWin = 'Y' THEN 1 ELSE 0 END,
-							CASE WHEN WSWin = 'Y' THEN 1 ELSE 0 END) AS playoff_points
+		W/G AS winning_percentage,
+		RANK() OVER (ORDER BY W/G DESC, R DESC) AS WG_Ranking,
+		SUM(CASE WHEN WCWin = 'Y' THEN 1 ELSE 0 END,
+			CASE WHEN DivWin = 'Y' THEN 1 ELSE 0 END,
+			CASE WHEN LgWin = 'Y' THEN 1 ELSE 0 END,
+			CASE WHEN WSWin = 'Y' THEN 1 ELSE 0 END) AS playoff_points
     FROM  Teams
 	WHERE yearID>=1980 AND yearID<=2019
 )
@@ -163,7 +160,7 @@ AS(
 SELECT teamID, POS, MAX(G)
 FROM Fielding
 WHERE yearID = 2021 AND
-				POS != 'P' 
+	POS != 'P' 
 GROUP BY teamID, POS
 )
 
@@ -171,8 +168,7 @@ SELECT A.teamID, A.POS, B.G, B.playerID
 FROM A
 INNER JOIN Fielding AS B
 ON A.teamID = B.teamID AND
-		A.POS = B.POS AND
+	A.POS = B.POS AND
         A.MAX(G) = B.G;
 
-#Task1
 
