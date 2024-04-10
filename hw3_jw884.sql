@@ -17,13 +17,11 @@ GROUP BY date)
 SELECT A.*
 FROM A
 INNER JOIN B
-ON A.date = B.date AND
-		A.tot_winnings = B.tot_winnings;
+ON A.date = B.date AND A.tot_winnings = B.tot_winnings;
 
 #2
 SELECT * , 
-				CASE
-                WHEN eventAmount
+	CASE WHEN eventAmount
 FROM five_ep
 WHERE eventType = 'Big Wheel'
 ORDER BY date, name;
@@ -46,17 +44,17 @@ SELECT A.date, A.name, B.min_order
 FROM A
 INNER JOIN B
 ON A.date = B.date AND
-		A.name = B.name AND
+	A.name = B.name AND
         A.eventOrder <= B.min_order + 1
 GROUP BY A.date, A.name
 HAVING SUM(eventAmount) <= 1 AND COUNT(*) > 1) AS C
 ON A.date = C.date AND
-		A.name = C.name AND
+	A.name = C.name AND
         A.eventOrder = C.min_order;
 
 #3
 SELECT CASE win
-				WHEN 1.0 THEN 'bidder4_wins'
+		WHEN 1.0 THEN 'bidder4_wins'
                 ELSE 'bidder4_loses'
                 END AS outcome_group,
                 COUNT(*) AS n_times,
@@ -75,7 +73,7 @@ WHERE eventType = 'Bidders Row' AND eventOrder != 4
 GROUP BY date, eventTypeCounter
 ) AS B
 ON A.date = B.date AND
-		A.eventTypeCounter = B.eventTypeCounter AND
+	A.eventTypeCounter = B.eventTypeCounter AND
         A.eventAmount = B.max_three + 1
 GROUP BY outcome_group;
 
@@ -100,7 +98,7 @@ SELECT D.date, D.name, ABS(D.eventAmount - D.price) AS diff2
 FROM five_ep AS D
 INNER JOIN A
 ON A.date = D.date AND
-		A.name = D.name AND
+	A.name = D.name AND
         A.eventType = D.eventType AND
         A.min_order + 1 = D.eventTypeCounter),
 E AS (
@@ -108,7 +106,7 @@ SELECT B.date, B.name, B.diff1, C.diff2
 FROM B
 LEFT JOIN C
 ON B.date = C.date AND
-		B.name = C.name)
+	B.name = C.name)
 
 SELECT
 (SELECT COUNT(*)
@@ -158,9 +156,9 @@ A AS(
 SELECT Origin, Dest, COUNT(*) AS Total_Flights
 FROM ontime
 WHERE Cancelled = 0 AND Diverted = 0 AND
-				Origin IN (SELECT IATA
-								FROM airports
-                                WHERE Country = 'United States')
+	Origin IN (SELECT IATA
+			FROM airports
+                        WHERE Country = 'United States')
 GROUP BY Origin, Dest
 ORDER BY Total_Flights DESC
 LIMIT 10),
@@ -196,7 +194,7 @@ WHERE CONCAT(TRIM(Origin),TRIM(Dest)) IN (
 					FROM A
 					INNER JOIN A AS C
 					ON A.IATA != C.IATA AND
-							ABS(A.Altitude - C.Altitude) >= 3000);
+						ABS(A.Altitude - C.Altitude) >= 3000);
 
 #9
 WITH
@@ -217,7 +215,7 @@ WHERE CONCAT(TRIM(Origin),TRIM(Dest)) IN (
 					FROM A
 					INNER JOIN A AS C
 					ON A.IATA != C.IATA AND
-							ABS(A.Altitude - C.Altitude) >= 3000))/COUNT(*) AS percentage
+						ABS(A.Altitude - C.Altitude) >= 3000))/COUNT(*) AS percentage
 FROM B
 WHERE Origin IN (
 SELECT IATA
@@ -241,12 +239,12 @@ FROM A
 INNER JOIN A AS C
 ON A.IATA != C.IATA AND
 		ABS(A.Altitude - C.Altitude) >= 3000) OR 
-				CONCAT(TRIM(Dest),TRIM(Origin)) IN (
+		CONCAT(TRIM(Dest),TRIM(Origin)) IN (
 SELECT CONCAT(TRIM(A.IATA),TRIM(C.IATA))
 FROM A
 INNER JOIN A AS C
 ON A.IATA != C.IATA AND
-		ABS(A.Altitude - C.Altitude) >= 3000))/COUNT(*)
+	ABS(A.Altitude - C.Altitude) >= 3000))/COUNT(*)
 FROM B
 INNER JOIN A
 ON B.Origin = A.IATA
@@ -258,7 +256,7 @@ SELECT *
 FROM airports;
 #11
 SELECT A.*,
-				CASE
+		CASE
 				WHEN B.Timezone = 'America/New_York' THEN 1
 				WHEN B.Timezone = 'America/Chicago' THEN 2
 				WHEN (B.Timezone = 'America/Denver' OR B.Timezone = 'America/Phoenix') THEN 3
@@ -278,7 +276,7 @@ ON A.Origin = B.IATA
 LEFT JOIN airports AS C
 ON A.Dest = C.IATA
 WHERE A.Cancelled = 0 AND
-				A.Diverted = 0 AND
+		A.Diverted = 0 AND
                 B.Country = 'United States' AND
                 C.Country = 'United States';
 
@@ -292,7 +290,7 @@ SELECT CASE
                 END AS Three_TZ_Flight, COUNT(*)
 FROM
 (SELECT A.*,
-				CASE
+		CASE
 				WHEN B.Timezone = 'America/New_York' THEN 1
 				WHEN B.Timezone = 'America/Chicago' THEN 2
 				WHEN (B.Timezone = 'America/Denver' OR B.Timezone = 'America/Phoenix') THEN 3
@@ -312,7 +310,7 @@ ON A.Origin = B.IATA
 LEFT JOIN airports AS C
 ON A.Dest = C.IATA
 WHERE A.Cancelled = 0 AND
-				A.Diverted = 0 AND
+		A.Diverted = 0 AND
                 B.Country = 'United States' AND
                 C.Country = 'United States') AS C
 GROUP BY Three_TZ_Flight;
@@ -358,7 +356,7 @@ ORDER BY Three_TZ_Flight DESC;
 
 
 SELECT A.*,
-				CASE
+		CASE
 				WHEN B.Timezone = 'America/New_York' THEN 1
 				WHEN B.Timezone = 'America/Chicago' THEN 2
 				WHEN (B.Timezone = 'America/Denver' OR B.Timezone = 'America/Phoenix') THEN 3
@@ -378,7 +376,7 @@ ON A.Origin = B.IATA
 LEFT JOIN airports AS C
 ON A.Dest = C.IATA
 WHERE A.Cancelled = 0 AND
-				A.Diverted = 0 AND
+		A.Diverted = 0 AND
                 B.Country = 'United States' AND
                 C.Country = 'United States';
 
@@ -399,14 +397,14 @@ B AS
 FROM ontime
 WHERE Cancelled = 0 AND Diverted = 0 AND
 				Origin IN (SELECT IATA
-								FROM airports
-                                WHERE Country = 'United States') AND
+						FROM airports
+                                		WHERE Country = 'United States') AND
 				Dest IN (SELECT IATA
-								FROM airports
-                                WHERE Country = 'United States'))
+						FROM airports
+                                		WHERE Country = 'United States'))
 
 SELECT CASE
-				WHEN ABS(TZ_Num1 - A.TZ_Num) >= 2 THEN 'Yes'
+		WHEN ABS(TZ_Num1 - A.TZ_Num) >= 2 THEN 'Yes'
                 WHEN ABS(TZ_Num1 - A.TZ_Num) < 2 THEN 'No'
                 ELSE NULL
                 END AS Three_TZ_Flight,
@@ -465,7 +463,7 @@ FROM airports
 WHERE Country = 'United States')
 
 SELECT CASE
-				WHEN ABS(TZ_Num1 - A.TZ_Num) >= 2 THEN 'Yes'
+		WHEN ABS(TZ_Num1 - A.TZ_Num) >= 2 THEN 'Yes'
                 WHEN ABS(TZ_Num1 - A.TZ_Num) < 2 THEN 'No'
                 ELSE NULL
                 END AS Three_TZ_Flight,
@@ -482,7 +480,7 @@ GROUP BY Three_TZ_Flight;
 
 
 SELECT CASE
-				WHEN ABS(TZ_Num1 - TZ_Num2) >= 2 THEN 'Yes'
+		WHEN ABS(TZ_Num1 - TZ_Num2) >= 2 THEN 'Yes'
                 WHEN ABS(TZ_Num1 - TZ_Num2) < 2 THEN 'No'
                 ELSE NULL
                 END AS Three_TZ_Flight,
@@ -500,7 +498,7 @@ FROM
 (SELECT Origin, Dest
 FROM ontime
 WHERE Cancelled = 0 AND 
-				Diverted = 0 AND
+		Diverted = 0 AND
                 Origin = 'RDU'
 GROUP BY Origin, Dest
 HAVING COUNT(*) >= 300) AS A
@@ -508,7 +506,7 @@ INNER JOIN(
 SELECT Origin, Dest
 FROM ontime
 WHERE Cancelled = 0 AND 
-				Diverted = 0 AND
+		Diverted = 0 AND
                 Dest = 'SFO'
 GROUP BY Origin, Dest
 HAVING COUNT(*) >= 300) AS B
@@ -518,11 +516,11 @@ ON A.Dest = B.Origin;
 USE yelp;
 
 SELECT review_groups,
-				COUNT(*)/SUM(COUNT(*)) OVER() AS percent_total
+	COUNT(*)/SUM(COUNT(*)) OVER() AS percent_total
 FROM
 (
 SELECT A.business_id,
-				CASE
+	CASE
                 WHEN count >= 1 THEN 'at_least_one'
                 ELSE 'zero'
                 END AS review_groups
