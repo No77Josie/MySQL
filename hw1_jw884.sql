@@ -13,16 +13,16 @@ FROM health;
 
 #3
 SELECT sex,
-				COUNT(*)
+	COUNT(*)
 FROM health
 GROUP BY sex
 ORDER BY COUNT(*);
 
 #4
 SELECT sex,
-				AVG(hypertension),
-                AVG(vasc_disease),
-                AVG(diabetes)
+	AVG(hypertension),
+        AVG(vasc_disease),
+        AVG(diabetes)
 FROM health
 GROUP BY sex
 HAVING sex = 'Male' or sex = 'Female';
@@ -39,7 +39,7 @@ SELECT 10 + '90+';
 
 #7
 SELECT sex, hypertension,
-				ROUND(0+AVG(age),2), COUNT(*)
+	ROUND(0+AVG(age),2), COUNT(*)
 FROM health
 WHERE status = 'Alive' and sex != 'Unknown'
 GROUP BY sex, hypertension
@@ -78,8 +78,8 @@ WHERE visits_sched = 'NULL';
 SELECT COUNT(*)
 FROM health
 WHERE bmi IS NOT NULL AND
-			visits_sched != 'NULL' AND
-            visits_miss != '';
+	visits_sched != 'NULL' AND
+        visits_miss != '';
             
 SELECT COUNT(*)
 FROM health
@@ -89,8 +89,8 @@ WHERE visits_miss = '';
 SELECT payor, COUNT(*)
 FROM health
 WHERE visits_sched >= 10 AND
-				visits_miss >= 0.5 * visits_sched AND
-                status = 'Alive'
+	visits_miss >= 0.5 * visits_sched AND
+        status = 'Alive'
 GROUP BY payor
 ORDER BY COUNT(*) DESC;
 
@@ -106,7 +106,7 @@ FROM health;
 
 
 SELECT CASE payor
-				WHEN 'Medicaid' THEN 'Medicaid'
+		WHEN 'Medicaid' THEN 'Medicaid'
                 ELSE 'nonMedicaid'
                 END AS MedorNot,
                 AVG(visits_miss/visits_sched) AS mean,
@@ -135,17 +135,17 @@ FROM health;
 #16
 SELECT  CASE
                 WHEN age >= 65 OR
-							hypertension = 1 OR
-                            vasc_disease = 1 OR
-                            diabetes = 1 OR
-                            bmi >= 30 THEN 'high_risk'
-				ELSE 'low_risk'
+			hypertension = 1 OR
+                        vasc_disease = 1 OR
+                        diabetes = 1 OR
+                        bmi >= 30 THEN 'high_risk'
+			ELSE 'low_risk'
                 END AS risk_group,
                 COUNT(*),
                 SUM(CASE
-							WHEN smoke = 1 THEN 1
-                            ELSE 0
-                            END) AS current_smoke
+			WHEN smoke = 1 THEN 1
+                        ELSE 0
+                        END) AS current_smoke
 FROM health
 GROUP BY risk_group
 ORDER BY risk_group DESC;
@@ -161,16 +161,16 @@ FROM five_ep;
 SELECT price - eventAmount AS diff
 FROM five_ep
 WHERE eventType = 'Bidders Row' AND
-			   win != 1.0 AND
-               eventAmount < price
+	win != 1.0 AND
+        eventAmount < price
 ORDER BY diff
 LIMIT 1;
 
 #18
 SELECT date, name,
-				COUNT(*),
-                AVG(ABS(price - eventAmount)) AS avg_diff,
-                SUM(win) AS if_win
+	COUNT(*),
+        AVG(ABS(price - eventAmount)) AS avg_diff,
+        SUM(win) AS if_win
 FROM five_ep
 WHERE eventType = 'Bidders Row'
 GROUP BY date, name
@@ -180,18 +180,16 @@ LIMIT 1;
 
 #19
 SELECT date, eventTypeCounter,
-				MIN(eventAmount-price) AS min_diff,
-				SUM(CASE
-				WHEN eventAmount < price THEN 1
+	MIN(eventAmount-price) AS min_diff,
+	SUM(CASE
+		WHEN eventAmount < price THEN 1
                 ELSE 0
                 END) AS num_less
 FROM five_ep
 WHERE eventType = 'Bidders Row' AND
-			  eventOrder != 4
+	eventOrder != 4
 GROUP BY date, eventTypeCounter
 HAVING num_less = 0;
-
-
 
 
 
